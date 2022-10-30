@@ -260,6 +260,29 @@ if (isset($_POST['action'])) {
 - [ ] Le Skeleton envoie le résultat dans une la réponse SOAP au Stub
 - [ ] Le Stub fournie lé résultat au client
 
+   
+    
+ ## <strong style="color: green; opacity: 0.80" >4. Création d'un Micro-service Spring boot Multi Connecteurs SOAP, REST, GRAPHQL qui permet de gérer des comptes</strong>
+
+* Connecteur REST
+    
+![](https://i.imgur.com/zPO0OJl.png)
+    
+![](https://i.imgur.com/Aa847U7.png)
+
+* Connecteur GraphQL
+
+![](https://i.imgur.com/UDid0lT.png)
+
+![](https://i.imgur.com/3nP59iC.png)
+
+![](https://i.imgur.com/GB4Gskq.png)
+    
+![](https://i.imgur.com/nW0zOgg.png)
+
+![](https://i.imgur.com/XKHPsEo.png)
+
+![](https://i.imgur.com/SEObAwK.png)
 
 
     
