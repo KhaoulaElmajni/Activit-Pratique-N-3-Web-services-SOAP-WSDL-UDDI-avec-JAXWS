@@ -1,0 +1,26 @@
+type Query {
+    comptes : [Compte],
+    getCompte(id: Int):CompteResponseDTO,
+}
+type Mutation{
+    updateCompte(compteRequestDTO : CompteRequestDTO): CompteResponseDTO,
+    addCompte(compteRequestDTO :CompteRequestDTO):CompteResponseDTO,
+    deleteCompte(id : Int): String
+}
+type Compte {
+    id: Int,
+    balance : Float,
+    createdAt : Float,
+    currency : String
+}
+input CompteRequestDTO {
+    id: Int,
+    balance : Float,
+    createdAt : Float,
+    currency : String
+}
+type CompteResponseDTO {
+    balance : Float,
+    createdAt : Float,
+    currency : String
+}
