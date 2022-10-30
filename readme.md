@@ -8,7 +8,7 @@
 </span>
 ## <span style="color:#66ff66"> Partie Serveur : :label:</span>
 
-## Déploiemen du Web service avec un simple Serveur JaxWSLe
+## Déploiemen du Web service avec un simple Serveur JaxWS
 >	
 >	serveur JaxWS:
 
@@ -182,6 +182,17 @@ public class ClientWS {
 
  ## <strong style="color: green; opacity: 0.80" >3.comment ça marche ?</strong>
     
+![](https://i.imgur.com/EaL63Cq.png)
+![](https://i.imgur.com/Cl1yMvi.png)
+
+
+    
+- [ ]     Le client demande au stub de faire appel à la méthode conversion(12)
+- [ ] Le Stub se connecte au Skeleton et lui envoie une requête SOAP
+- [ ] Le Skeleton fait appel à la méthode du web service
+- [ ] Le web service retourne le résultat au Skeleton
+- [ ] Le Skeleton envoie le résultat dans une la réponse SOAP au Stub
+- [ ] Le Stub fournie lé résultat au client
 
 
 
