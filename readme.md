@@ -125,7 +125,7 @@ public class Compte {
 
 ```
 
-## <span style="color:#66ff66"> Partie Client SOAP Java : :label:</span>
+## <span style="color:#66ff66"> Partie Cliente SOAP Java : :label:</span>
 
 >	Le Client du Web service:
 
@@ -154,6 +154,22 @@ public class ClientWS {
 ![](https://i.imgur.com/I1ZBBCy.png)
 
 ![](https://i.imgur.com/J2ZPb1K.png)
+
+## <span style="color:#66ff66"> Partie Cliente  SOAP Dot Net : :label:</span>
+
+
+
+
+## <span style="color:#66ff66"> Partie Cliente  SOAP PHP : :label:</span>
+
+![](https://i.imgur.com/GrmeiXx.png)
+
+![](https://i.imgur.com/vxJOJGz.png)
+
+
+## <span style="color:#66ff66">Déploiement du Web Service dans un Projet Spring Boot : :label:</span>
+
+
 
 # <span style="color:green">3.Les Technologies utilisées</span>
  #### <span style="color:#0036ad"> 1.Java</span>
