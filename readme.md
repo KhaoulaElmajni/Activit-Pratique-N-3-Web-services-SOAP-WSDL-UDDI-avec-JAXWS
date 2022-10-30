@@ -5,9 +5,7 @@
     • Convertir un montant de l’auro en DH
     • Consulter un Compte
     • Consulter une Liste de comptes
-
-
-5. Créer un Client SOAP Java</span>
+</span>
 ## <span style="color:#66ff66"> Partie Serveur : :label:</span>
 
 ## Déploiemen du Web service avec un simple Serveur JaxWSLe
@@ -57,7 +55,8 @@ public class BanqueService {
 
 ```
 
-## Consultation et analyse du WSDL avec un Browser HTTP
+
+## Consultation et analyse du fichier WSDL avec un Browser HTTP
 
 ![](https://i.imgur.com/24X1LdG.png)
 
@@ -126,7 +125,7 @@ public class Compte {
 
 ```
 
-## <span style="color:#66ff66"> Partie Client : :label:</span>
+## <span style="color:#66ff66"> Partie Client SOAP Java : :label:</span>
 
 >	Le Client du Web service:
 
@@ -150,28 +149,11 @@ public class ClientWS {
 
 ```
 
-## <span style="color:#66ff66">  les fonctionnalités de l'application :label: </span>
-L'application offre les fonctionnalités suivantes :
+>Le proxy à la partie cliente
 
+![](https://i.imgur.com/I1ZBBCy.png)
 
-### 1. <span style="color:#001a33">.</span>
-### 2. <span style="color:#001a33">.</span>
-### 3. <span style="color:#001a33">.</span>
-### 4. <span style="color:#001a33">.</span>
-
-## <span style="color:#66ff66">La communication entre les micro-services :label: </span>
-:
-
-### L'interface de 'Open Feign' :
-
-```java=10
-
-public inetrface 
-```
-
-
-## <span style="color:#66ff66">Contraintes techniques :label: </span>
-.
+![](https://i.imgur.com/J2ZPb1K.png)
 
 # <span style="color:green">3.Les Technologies utilisées</span>
  #### <span style="color:#0036ad"> 1.Java</span>
@@ -180,32 +162,25 @@ public inetrface
 *voir également à propos* [JAVA](https://www.java.com/fr/):link: 
 
 
- #### <span style="color:#0036ad"> 3.Spring Data JPA</span>
- * <strong style="color:dark">Spring Data JPA, qui fait partie de la grande famille Spring Data, facilite la mise en œuvre de référentiels basés sur JPA. Ce module traite de la prise en charge améliorée des couches d'accès aux données basées sur JPA. Il facilite la création d'applications alimentées par Spring qui utilisent des technologies d'accès aux données.
+ #### <span style="color:#0036ad"> 2.JaxWS</span>
+ * <strong style="color:dark">JAX-WS (Java API for XML Web Services) Est un ensemble d'interfaces (API) De langage de programmation Java dédié au développement de services web. L'ensemble fait partie de la plate-forme Java EE.
     
 
-*voir également à propos de [Spring Data JPA](https://spring.io/projects/spring-data-jpa) :link: 
-
-#### <span style="color:#0036ad"> 4.MySQL</span>
- * <strong style="color:dark">est un système de gestion de base de données relationnelle (SGBDR) open source. Son nom est une combinaison de "My", le nom de la fille du co-fondateur Michael Widenius, et de "SQL", l'abréviation de Structured Query Language. Une base de données relationnelle organise les données en une ou plusieurs tables de données dans lesquelles les types de données peuvent être liés les uns aux autres ; ces relations aident à structurer les données. SQL est un langage utilisé par les programmeurs pour créer, modifier et extraire des données de la base de données relationnelle, ainsi que pour contrôler l'accès des utilisateurs à la base de données.
-*voir également à propos* [MySQL](https://devdocs.io/css/) :link: 
+*voir également à propos de [JaxWS](https://boowiki.info/art/plate-forme-java/jax-ws.html) :link: 
 
 
  
-## <span style="color:green ">4.Structure du projet</span>
+## <span style="color:green ">2. Architecture du Web Service</span>
+    
+![](https://i.imgur.com/ivnUgx9.png)
 
-
-
- ## <span style="color:green ">5.CONCEPTION & ANALYSES</span>
- * ###### <strong style="color:red; opacity: 0.80">Diagramme de classe </strong>
-> Diagramme de classe [color=#fd837b]
 
   ---
 
 
 
 
- ## <strong style="color: green; opacity: 0.80" >6.comment ça marche ?</strong>
+ ## <strong style="color: green; opacity: 0.80" >3.comment ça marche ?</strong>
     
 
 
