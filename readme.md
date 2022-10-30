@@ -157,6 +157,9 @@ public class ClientWS {
 
 ## <span style="color:#66ff66"> Partie Cliente  SOAP Dot Net : :label:</span>
 
+    
+![](https://i.imgur.com/RR5BgXo.png)
+![](https://i.imgur.com/bwQFXMs.png)
 
 
 
@@ -284,6 +287,69 @@ if (isset($_POST['action'])) {
 
 ![](https://i.imgur.com/SEObAwK.png)
 
+
+* Connecteur SOAP
+
+    serveur jaxWS
+```java=1
+public class ServeurJWS {
+    public static void main(String[] args) {
+        Endpoint.publish("http://0.0.0.0:8088/",new BanqueService());
+        System.out.println("Web Service déployé sur l'adresse http://0.0.0.0:8088/!");
+    }
+}
+```
+    
+```java=10
+    @WebService(serviceName = "BanqueWS")
+public class BanqueService {
+
+    @Autowired
+    private CompteService compteService;
+
+    @WebMethod(operationName = "addCompte")
+    public CompteResponseDTO addCompte(@WebParam(name = "compte") CompteRequestDTO compteRequestDTO){
+        return compteService.saveCompte(compteRequestDTO);
+    }
+
+    @WebMethod
+    public CompteResponseDTO getCompte(@WebParam(name = "id") Long id){
+        return compteService.getCompte(id);
+    }
+
+    @WebMethod
+    public List<CompteResponseDTO> comptes(){
+        return compteService.getComptes();
+    }
+}
+
+
+```
+    
+```java=10
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
+@XmlRootElement(name = "compte")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Compte {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @XmlTransient
+    private Date createdAt;
+    private Double balance;
+    private String currency;
+}
+
+
+```
+
+
+![](https://i.imgur.com/sPk6KR7.png)
 
     
 * <strong style="color: dark ; opacity: 0.80">Enfin nous tenons à remercier le seul et unique, notre professeur Mr YOUSFI Mohamed *Docteur & professeur à l'ENSET MEDIA* pour son soutien et son encouragement envers nous, aussi pour nous avoir donné cette opportunité d'améliorer nos compétences et de connaître les nouvelles technologies comme celles qui nous avons travaillé.
