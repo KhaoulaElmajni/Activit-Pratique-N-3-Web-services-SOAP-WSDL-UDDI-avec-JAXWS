@@ -18,16 +18,15 @@ if (isset($_POST['action'])) {
 
 <html>
 <body>
-    <form method="post" action="clientSOAP.php">
-        Montant:<input type="text" name="montant" value="<?php echo ($mt) ?>">
+    <form method="post" action="ClientSOAP.php">
+        Montant :<input type="text" name="montant" value="<?php echo ($mt) ?>">
         <input type="submit" value="OK" name="action">
-        <input type="submit" value="listComptes" name="action">
+        <input type="submit" value="comptes" name="action">
     </form>
-    Rsultat:
-    <?php if (isset($res)) {
-        echo ($res);
-    }
-    ?>
+    Rsultat :
+    <?php if (isset($res)) { ?>
+       <?php echo ($res) ?> en EURO = <?php echo($res->return)?> en DH
+    <?php } ?>
     <?php if (isset($cptes)) { ?>
         <table border="1" width="80%">
             <tr>
