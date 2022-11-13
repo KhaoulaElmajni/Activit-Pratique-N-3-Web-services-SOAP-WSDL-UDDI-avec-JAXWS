@@ -1,7 +1,9 @@
 package me.elmajni.multiconnectorsms;
 
+import com.jax.ws.web.service.Compte;
 import me.elmajni.multiconnectorsms.dtos.CompteRequestDTO;
 import me.elmajni.multiconnectorsms.service.CompteService;
+import me.elmajni.multiconnectorsms.soapWebService.CompteRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,12 +19,13 @@ public class MultiConnectorsMsApplication {
 	}
 
 	@Bean
-	CommandLineRunner start(CompteService compteService){
+	CommandLineRunner start(CompteRepository compteRepository, CompteService compteService) {
 		return args -> {
-			compteService.saveCompte(new CompteRequestDTO(null,new Date(),Math.random()*20000,"Euro"));
-			compteService.saveCompte(new CompteRequestDTO(null,new Date(),Math.random()*20000,"DH"));
-			compteService.saveCompte(new CompteRequestDTO(null,new Date(),Math.random()*20000,"Euro"));
-			compteService.saveCompte(new CompteRequestDTO(null,new Date(),Math.random()*20000,"DH"));
+			compteRepository.getAllComptes().add(new Compte(1L, Math.random() * 9888, new Date()));
+			compteRepository.getAllComptes().add(new Compte(2L, Math.random() * 9888, new Date()));
+			compteRepository.getAllComptes().add(new Compte(3L, Math.random() * 9888, new Date()));
+			compteRepository.getAllComptes().add(new Compte(4L, Math.random() * 9888, new Date()));
+			compteRepository.getAllComptes().add(new Compte(5L, Math.random() * 9888, new Date()));
 
 		};
 	}

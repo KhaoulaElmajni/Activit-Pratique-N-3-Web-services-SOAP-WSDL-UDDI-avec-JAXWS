@@ -4,7 +4,7 @@ import me.elmajni.multiconnectorsms.dtos.CompteRequestDTO;
 import me.elmajni.multiconnectorsms.dtos.CompteResponseDTO;
 import me.elmajni.multiconnectorsms.entities.Compte;
 import me.elmajni.multiconnectorsms.mappers.CompteMapper;
-import me.elmajni.multiconnectorsms.repositories.CompteRepository;
+import me.elmajni.multiconnectorsms.soapWebService.CompteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class CompteServiceImpl implements CompteService {
         this.compteMapper = compteMapper;
     }*/
 
-    @Override
+   /* @Override
     public CompteResponseDTO saveCompte(CompteRequestDTO compteRequestDTO) {
         Compte compte = compteMapper.fromompteRequestDTO(compteRequestDTO);
         Compte savedCompte = compteRepository.save(compte);
@@ -56,5 +56,6 @@ public class CompteServiceImpl implements CompteService {
         return customers
                 .stream()
                 .map((compte)->compteMapper.fromCompte(compte)).collect(Collectors.toList());
-    }
+    }*/
+
 }
