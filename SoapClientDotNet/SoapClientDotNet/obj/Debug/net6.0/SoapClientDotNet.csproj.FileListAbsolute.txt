@@ -1,0 +1,15 @@
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\bin\Debug\net6.0\SoapClientDotNet.exe
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\bin\Debug\net6.0\SoapClientDotNet.deps.json
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\bin\Debug\net6.0\SoapClientDotNet.runtimeconfig.json
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\bin\Debug\net6.0\SoapClientDotNet.dll
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\bin\Debug\net6.0\SoapClientDotNet.pdb
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.csproj.AssemblyReference.cache
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.AssemblyInfoInputs.cache
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.AssemblyInfo.cs
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.csproj.CoreCompileInputs.cache
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.dll
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\refint\SoapClientDotNet.dll
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.pdb
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\SoapClientDotNet.genruntimeconfig.cache
+C:\Users\Standard\RiderProjects\SoapClientDotNet\SoapClientDotNet\obj\Debug\net6.0\ref\SoapClientDotNet.dll
