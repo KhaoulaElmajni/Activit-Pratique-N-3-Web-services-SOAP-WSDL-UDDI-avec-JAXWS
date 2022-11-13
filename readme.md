@@ -289,67 +289,261 @@ if (isset($_POST['action'])) {
 
 
 * Connecteur SOAP
+ * <strong style="color:dark"> Je me suis basée sur le blog suivant : [Create a SOAP Web Service with Spring
+](https://www.baeldung.com/spring-boot-soap-web-service)
+    Schema XSD
+```xml=1
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Published by XML-WS Runtime (https://github.com/eclipse-ee4j/metro-jax-ws). Runtime's version is XML-WS Runtime 4.0.0 git-revision#129f787.-->
+<xsd:schema targetNamespace="http://service.web.ws.jax.com/" xmlns:ns0="http://service.web.ws.jax.com/"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:complexType name="compte">
+        <xsd:sequence>
+            <xsd:element name="code" type="xsd:long" minOccurs="0"/>
+            <xsd:element name="montant" type="xsd:double"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="compteList"/>
+    <xsd:complexType name="compteListResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="ns0:compte" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Convert">
+        <xsd:sequence>
+            <xsd:element name="montant" type="xsd:double"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ConvertResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="xsd:double"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getCompte">
+        <xsd:sequence>
+            <xsd:element name="code" type="xsd:long" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getCompteResponse">
+        <xsd:sequence>
+            <xsd:element name="return" type="ns0:compte" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="compte" type="ns0:compte"/>
+    <xsd:element name="compteList" type="ns0:compteList"/>
+    <xsd:element name="compteListResponse" type="ns0:compteListResponse"/>
+    <xsd:element name="Convert" type="ns0:Convert"/>
+    <xsd:element name="ConvertResponse" type="ns0:ConvertResponse"/>
+    <xsd:element name="getCompte" type="ns0:getCompte"/>
+    <xsd:element name="getCompteResponse" type="ns0:getCompteResponse"/>
+</xsd:schema>
 
-    serveur jaxWS
-```java=1
-public class ServeurJWS {
-    public static void main(String[] args) {
-        Endpoint.publish("http://0.0.0.0:8088/",new BanqueService());
-        System.out.println("Web Service déployé sur l'adresse http://0.0.0.0:8088/!");
-    }
-}
 ```
+
+Plugin à ajouter à "pom.xml"
+    
+```xml=1
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>jaxb2-maven-plugin</artifactId>
+    <version>1.6</version>
+    <executions>
+        <execution>
+            <id>xjc</id>
+            <goals>
+                <goal>xjc</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
+        <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+        <clearOutputDir>false</clearOutputDir>
+    </configuration>
+    <dependencies>
+	<dependency>
+		<groupId>javax.activation</groupId>
+		<artifactId>activation</artifactId>
+		<version>1.1.1</version>
+	</dependency>
+    </dependencies>
+</plugin>
+
+```
+
+Compte Web Service Endpoint
     
 ```java=10
-    @WebService(serviceName = "BanqueWS")
-public class BanqueService {
+@Endpoint
+public class CompteEndpoint {
+
+    private static final String NAMESPACE_URI = "http://service.web.ws.jax.com/";
+
+    private CompteRepository countryRepository;
 
     @Autowired
-    private CompteService compteService;
-
-    @WebMethod(operationName = "addCompte")
-    public CompteResponseDTO addCompte(@WebParam(name = "compte") CompteRequestDTO compteRequestDTO){
-        return compteService.saveCompte(compteRequestDTO);
+    public CompteEndpoint(CompteRepository countryRepository) {
+        this.countryRepository = countryRepository;
     }
 
-    @WebMethod
-    public CompteResponseDTO getCompte(@WebParam(name = "id") Long id){
-        return compteService.getCompte(id);
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCompte")
+    @ResponsePayload
+    public JAXBElement<GetCompteResponse> getCompte(@RequestPayload JAXBElement<GetCompte> request) {
+        GetCompteResponse response = new GetCompteResponse();
+        response.setReturn(countryRepository.getCompte(request.getValue().getCode()));
+        return new ObjectFactory().createGetCompteResponse(response);
     }
 
-    @WebMethod
-    public List<CompteResponseDTO> comptes(){
-        return compteService.getComptes();
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "Convert")
+    @ResponsePayload
+    public JAXBElement<ConvertResponse> convert(@RequestPayload JAXBElement<Convert> request) {
+        ConvertResponse response = new ConvertResponse();
+        response.setReturn(countryRepository.convert(request.getValue().getMontant()));
+        return new ObjectFactory().createConvertResponse(response);
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "compteList")
+    @ResponsePayload
+    public JAXBElement<CompteListResponse> getCompteList(@RequestPayload JAXBElement<CompteList> request) {
+        CompteListResponse response = new CompteListResponse();
+        response.getReturn().addAll(countryRepository.getAllComptes());
+        return new ObjectFactory().createCompteListResponse(response);
     }
 }
-
-
 ```
     
-```java=10
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+Bean de la configuration du Endpoint
+```java=1
+@EnableWs
+@Configuration
+public class WebServiceConfig extends WsConfigurerAdapter {
+    @Bean
+    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
+        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
+        servlet.setApplicationContext(applicationContext);
+        servlet.setTransformWsdlLocations(true);
+        return new ServletRegistrationBean(servlet, "/ws/*");
+    }
 
-@XmlRootElement(name = "compte")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Compte {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @XmlTransient
-    private Date createdAt;
-    private Double balance;
-    private String currency;
+    @Bean(name = "comptes")
+    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema schema) {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("ComptesPort");
+        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setTargetNamespace("http://service.web.ws.jax.com");
+        wsdl11Definition.setSchema(schema);
+        return wsdl11Definition;
+    }
+
+    @Bean(name = "wsdl")
+    public Wsdl11Definition defaultWsdl11Definition() {
+        SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
+        wsdl11Definition.setWsdl(new ClassPathResource("wsdl.wsdl"));
+        return wsdl11Definition;
+    }
+
+    @Bean
+    public XsdSchema schema() {
+        return new SimpleXsdSchema(new ClassPathResource("schema.xsd"));
+    }
 }
 
+```    
 
-```
+Le fichier WSDL généré
+```xml=1
+    <?xml version='1.0' encoding='UTF-8'?><!-- Published by XML-WS Runtime (https://github.com/eclipse-ee4j/metro-jax-ws). Runtime's version is XML-WS Runtime 4.0.0 git-revision#129f787. --><!-- Generated by XML-WS Runtime (https://github.com/eclipse-ee4j/metro-jax-ws). Runtime's version is XML-WS Runtime 4.0.0 git-revision#129f787. -->
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+             xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy"
+             xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.web.ws.jax.com/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             targetNamespace="http://service.web.ws.jax.com/" name="BanqueWS">
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="http://service.web.ws.jax.com/" schemaLocation="http://localhost:9191/?xsd=1"/>
+        </xsd:schema>
+    </types>
+    <message name="Convert">
+        <part name="parameters" element="tns:Convert"/>
+    </message>
+    <message name="ConvertResponse">
+        <part name="parameters" element="tns:ConvertResponse"/>
+    </message>
+    <message name="getCompte">
+        <part name="parameters" element="tns:getCompte"/>
+    </message>
+    <message name="getCompteResponse">
+        <part name="parameters" element="tns:getCompteResponse"/>
+    </message>
+    <message name="compteList">
+        <part name="parameters" element="tns:compteList"/>
+    </message>
+    <message name="compteListResponse">
+        <part name="parameters" element="tns:compteListResponse"/>
+    </message>
+    <portType name="BanqueService">
+        <operation name="Convert">
+            <input wsam:Action="http://service.web.ws.jax.com/BanqueService/ConvertRequest" message="tns:Convert"/>
+            <output wsam:Action="http://service.web.ws.jax.com/BanqueService/ConvertResponse"
+                    message="tns:ConvertResponse"/>
+        </operation>
+        <operation name="getCompte">
+            <input wsam:Action="http://service.web.ws.jax.com/BanqueService/getCompteRequest" message="tns:getCompte"/>
+            <output wsam:Action="http://service.web.ws.jax.com/BanqueService/getCompteResponse"
+                    message="tns:getCompteResponse"/>
+        </operation>
+        <operation name="compteList">
+            <input wsam:Action="http://service.web.ws.jax.com/BanqueService/compteListRequest"
+                   message="tns:compteList"/>
+            <output wsam:Action="http://service.web.ws.jax.com/BanqueService/compteListResponse"
+                    message="tns:compteListResponse"/>
+        </operation>
+    </portType>
+    <binding name="BanqueServicePortBinding" type="tns:BanqueService">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="Convert">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getCompte">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="compteList">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="BanqueWS">
+        <port name="BanqueServicePort" binding="tns:BanqueServicePortBinding">
+            <soap:address location="http://localhost:9191/"/>
+        </port>
+    </service>
+</definitions>
+```    
+    
+Tester les requetes SOAP
+![](https://i.imgur.com/tEeH4s0.png)
 
 
-![](https://i.imgur.com/sPk6KR7.png)
+![](https://i.imgur.com/7b0t9T0.png)
+
 
     
 * <strong style="color: dark ; opacity: 0.80">Enfin nous tenons à remercier le seul et unique, notre professeur Mr YOUSFI Mohamed *Docteur & professeur à l'ENSET MEDIA* pour son soutien et son encouragement envers nous, aussi pour nous avoir donné cette opportunité d'améliorer nos compétences et de connaître les nouvelles technologies comme celles qui nous avons travaillé.
